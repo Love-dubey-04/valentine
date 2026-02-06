@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
+
+body{
+min-height:100vh;
+background:#ff758c;
+overflow:hidden;
+color:#fff;
+}
+
+/* Glowing heart */
+body::before{
+content:"❤";
+position:fixed;
+font-size:60vmin;
+opacity:.12;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+animation:pulse 4s infinite;
+}
+
+@keyframes pulse{
+0%,100%{transform:translate(-50%,-50%) scale(1)}
+50%{transform:translate(-50%,-50%) scale(1.1)}
+}
+
+/* Petals */
+.petal{
+position:fixed;
+top:-20px;
+font-size:22px;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg)}
+}
+
+section{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+text-align:center;
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,.25);
+backdrop-filter:blur(15px);
+-webkit-backdrop-filter:blur(15px);
+border-radius:25px;
+padding:25px;
+max-width:500px;
+width:100%;
+border:1px solid rgba(255,255,255,.35);
+box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+h1{font-family:Pacifico;font-size:2.2rem}
+.name{color:#ffe3ec}
+
+button{
+padding:12px 26px;
+border:none;
+border-radius:30px;
+margin:10px;
+font-size:1rem;
+cursor:pointer;
+transition:.3s;
+}
+
+#yes{background:#ff4d6d;color:#fff}
+#no{background:#fff;color:#ff4d6d}
+
+.wiggle{animation:wiggle .4s}
+
+@keyframes wiggle{
+0%{transform:translateX(0)}
+25%{transform:translateX(-6px)}
+50%{transform:translateX(6px)}
+75%{transform:translateX(-4px)}
+}
+
+.hidden{display:none}
+
+/* Jump image */
+.jump{
+width:140px;
+max-width:60vw;
+animation:jump 1.8s infinite;
+}
+
+@keyframes jump{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-12px)}
+}
+</style>
+</head>
+
+<body>
+    
+
+<!--<img src="./roseday.jpeg" >-->
+<!--<img src="VALENTINEES/roseday.jpeg" width="200">->
+<img src="./example.jpeg" width="200">-->
+
+ <!--🌹Petals generator --> 
+<script>
+setInterval(()=>{
+const p=document.createElement("div");
+p.className="petal";
+p.innerHTML=["🌹","❤️","💐","💌"][Math.floor(Math.random()*4)];
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(Math.random()*4+6)+"s";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),10000);
+},300);
+</script>
+
+<audio id="music" loop>
+<source src="sound.mpeg" type="audio/mpeg">
+</audio>
+
+<section id="proposal">
+<div class="card">
+<h1>Hey, <span class="name">Garima</span> 💖</h1>
+<p>Every smile of yours makes my day better.</p>
+<h2>Will you be my Valentine? 💌</h2>
+
+<button id="yes" onclick="yes()">YES 💕</button>
+<button id="no" onclick="no()">NO 🙈</button>
+<p id="noText"></p>
+</div>
+</section>
+
+<section id="days" class="hidden">
+<div class="card">
+<div id="couple"></div>
+<h2 id="dayTitle"></h2>
+<p id="dayText"></p>
+<button onclick="prev()">⬅ Back</button>
+<button onclick="next()">Next ➡</button>
+</div>
+</section>
+
+<script>
+
+const proposal=document.getElementById("proposal");
+const days=document.getElementById("days");
+const couple=document.getElementById("couple");
+const dayTitle=document.getElementById("dayTitle");
+const dayText=document.getElementById("dayText");
+const yesBtn=document.getElementById("yes");
+const noBtn=document.getElementById("no");
+const noText=document.getElementById("noText");
+
+
+let noCount=0;
+
+function no(){
+noCount++;
+noText.innerText=["Are you sure? 🥺","Think again 💗","I’ll wait 😌","YES looks cute 👀"][noCount%4];
+yesBtn.style.transform=`scale(${1+noCount*.1})`;
+noBtn.classList.add("wiggle");
+setTimeout(()=>noBtn.classList.remove("wiggle"),400);
+}
+
+function yes(){
+
+  const music = document.getElementById("music");
+  music.volume = 0.4;     // soft romantic volume
+  music.play();          // ▶ START SOUND
+
+  proposal.classList.add("hidden");
+  days.classList.remove("hidden");
+  show();
+}
+
+const daysData=[
+["Rose Day","My feelings for you are pure.","roseday.jpeg"],
+["Propose Day","I choose you.","propose.jpeg"],
+["Chocolate Day","Life is sweeter.","chocolate.jpeg"],
+["Teddy Day","You are cuddly and cute.","teddy.jpeg"],
+["Promise Day","I promise to always be there.","promise.jpeg"],
+["Hug Day","Sending you a warm hug.","hug.jpeg"],
+["Kiss Day","A kiss for my love.","kiss.jpeg"],
+["Valentine's Day","Will you be mine? ❤️","valentines.jpeg"]
+];
+
+let i=0;
+
+function show(){
+dayTitle.innerText=daysData[i][0];
+dayText.innerText=daysData[i][1];
+couple.innerHTML = `<img src="${daysData[i][2]}" class="jump">`;
+}
+
+function next(){if(i<daysData.length-1){i++;show()}}
+function prev(){if(i>0){i--;show()}}
+
+</script>
+
+</body>
+</html>
